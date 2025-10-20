@@ -1,0 +1,4 @@
+[flake8]
+exclude = static, templates, .venv, migrations, __init__.py, env.py, urls.py
+max-line-length = 120
+ignore = E203, W503
