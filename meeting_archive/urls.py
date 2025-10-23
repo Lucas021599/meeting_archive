@@ -22,10 +22,12 @@ from drf_spectacular.views import (
 )
 
 from app.views.health import HealthCheckView
+from app.views.insert import InsertView
 
 urlpatterns = [
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path("swagger/", SpectacularSwaggerView.as_view(), name="swagger-ui"),
     path("redoc/", SpectacularRedocView.as_view(), name="redoc"),
     path("health/", HealthCheckView.as_view(), name="health"),
+    path("api/insert/", InsertView.as_view(), name="insert"),
 ]
