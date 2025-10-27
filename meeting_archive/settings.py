@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
 from str2bool import str2bool
 
 load_dotenv(override=True)
@@ -164,3 +165,9 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "meeting_archive API",
     "VERSION": "1.0.0",
 }
+
+QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
+QDRANT_PORT = os.getenv("QDRANT_PORT", 6333)
+COLLECTION_NAME = os.getenv("COLLECTION_NAME")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
+SENTENCE_MODEL = SentenceTransformer(EMBEDDING_MODEL)
