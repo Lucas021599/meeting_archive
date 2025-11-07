@@ -1,5 +1,5 @@
 from drf_spectacular.utils import OpenApiResponse, extend_schema
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 
 from app.exceptions.exception import NotFoundException
@@ -9,12 +9,12 @@ from app.serializers.meeting import MeetingSerializer
 from app.utils import qdrant_delete, qdrant_update_payload, qdrant_upsert
 
 
-class MeetingDetailView(RetrieveUpdateAPIView):
+class MeetingDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
     lookup_field = "id"
     lookup_url_kwarg = "id"
-    http_method_names = ["get", "patch"]
+    http_method_names = ["get", "patch", "delete"]
 
     @extend_schema(
         summary="get_meeting",
@@ -77,3 +77,20 @@ class MeetingDetailView(RetrieveUpdateAPIView):
     )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="delete_meeting",
+        description="Delete a meeting by id",
+        responses={
+            204: None,
+            404: OpenApiResponse(
+                response=ErrorSerializer,
+                examples=[
+                    NotFoundException.example(),
+                ],
+            ),
+        },
+        tags=["Meeting"],
+    )
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
