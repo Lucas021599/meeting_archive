@@ -25,8 +25,19 @@ class MeetingSerializer(serializers.ModelSerializer):
                 PointStruct(
                     id=str(uuid.uuid4()),
                     vector=embedding,
-                    payload={"text": meeting.summary, "meeting_id": meeting.id},
+                    payload={
+                        "text": meeting.summary,
+                        "meeting_id": meeting.id,
+                        "category": meeting.category,
+                    },
                 )
             ],
         )
         return meeting
+
+
+class MeetingListRequestSerializer(serializers.Serializer):
+    page = serializers.IntegerField(required=False, default=1)
+    count = serializers.IntegerField(required=False, default=10)
+    query = serializers.CharField(required=False, default=None)
+    category = serializers.CharField(required=False, default=None)
