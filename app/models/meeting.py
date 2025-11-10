@@ -1,5 +1,7 @@
 from django.db import models
 
+from app.utils import qdrant_delete
+
 
 class Meeting(models.Model):
     category = models.CharField(max_length=50, help_text="회의 대주제")
@@ -10,3 +12,7 @@ class Meeting(models.Model):
     class Meta:
         managed = True
         db_table = "meeting"
+
+    def delete(self, *args, **kwargs):
+        qdrant_delete(self.id)
+        super().delete(*args, **kwargs)
